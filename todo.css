@@ -1,0 +1,10 @@
+body {
+    /* 全体のカウントをゼロにリセットする */
+    counter-reset: number -1; 
+}
+
+#CELL1:before {
+    /* CELL1が追加されるたびに1ずつ数が増える */
+    counter-increment: number 1; 
+    content: counter(number) " ";
+}
