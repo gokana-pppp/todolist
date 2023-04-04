@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="todo.css">
+    <!-- <link rel="stylesheet" href="todo.css"> -->
     <title>ToDoリスト</title>
 </head>
 
@@ -15,13 +15,16 @@
     <input type="radio" name="status" value="作業中">作業中
     <input type="radio" name="status" value="完了">完了
     
-    <table id="memoLists">
-        <tr>
-            <th>ID</th>
-            <th>コメント</th>
-            <th>状態</th>
-            <th></th>
-        </tr>       
+    <table >
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>コメント</th>
+                <th>状態</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="memoList"></tbody>
     </table>
 
     <h1>新規タスクの追加</h1>
