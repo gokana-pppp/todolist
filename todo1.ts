@@ -17,9 +17,8 @@ const list = <HTMLTableElement> document.getElementById("memoList")!;
 const addButton: HTMLElement = document.getElementById("addBtn")!;
 
 //Read:　HTMLにtodoList[]を表示する
-const displayTodoList = (): void => {
-
-todoList.forEach ( todo => {
+const displayTodoList = (arr: Todo[]): void => {
+arr.forEach ( todo => {
 
 let row: HTMLTableRowElement = list.insertRow(-1)!;
 let cellID: HTMLTableCellElement = row.insertCell(-1);
@@ -51,7 +50,7 @@ while(list.firstChild){
 }  
 
 //３、todoList[]をHTMLに表示する。
-displayTodoList()
+displayTodoList(todoList);
 })
 
 //Update:　statusの変更 ”作業中”から”完了”　”完了”から”作業中”　→　HTMLのボタンのテキストも変更 → radioボタンで切り替えた時に　”作業中”か”完了”　で分けて表示する?
