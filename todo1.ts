@@ -1,96 +1,79 @@
 //todo の型を作る
 type Todo = {
-  id: number,
-  contents: string,
-  status: "作業中" | "完了",
+    id: number,
+    contents: string,
+    status: "作業中" | "完了",
 }
 
 //todoが集まる配列を作る
-const todoList: Todo[] = [];
+let todoList: Todo[] = [];
 
-//Create:　新しいtodo{}を作って、todoList[]に追加する　.push
+//[Create]
+
+//新しいtodo{}を作って、todoList[]に追加する　.push
 const addTodo = (textmessage: string): void => {
-const date: Date = new Date();
-const createdDate: number = date.getTime(); //idは作成時間
-todoList.push({id: createdDate, contents: textmessage, status: "作業中"});
+  const date: Date = new Date();
+  const createdDate: number = date.getTime(); //idは作成時間
+  todoList.push({id: createdDate, contents: textmessage, status: "作業中"});
 }         
 
 const list = <HTMLTableElement> document.getElementById("memoList");
 const addButton: HTMLElement = document.getElementById("addBtn")!;
 const text = <HTMLInputElement> document.getElementById("text")
 
-//Read:　HTMLにtodoList[]を表示する
+//[Read]　
+
+//HTMLにtodoList[]を表示する
 const displayTodoList = (todoList: Todo[]): void => {
-todoList.forEach ( todo => {
+  todoList.forEach ( todo => {
 
-let row: HTMLTableRowElement = list.insertRow(-1)!;
-let cellID: HTMLTableCellElement = row.insertCell(-1);
-let cellContents: HTMLTableCellElement = row.insertCell(-1);
-let cellStatus: HTMLTableCellElement = row.insertCell(-1);
-let cellDelete: HTMLTableCellElement = row.insertCell(-1);
+  let row: HTMLTableRowElement = list.insertRow(-1)!;
+  let cellID: HTMLTableCellElement = row.insertCell(-1);
+  let cellContents: HTMLTableCellElement = row.insertCell(-1);
+  let cellStatus: HTMLTableCellElement = row.insertCell(-1);
+  let cellDelete: HTMLTableCellElement = row.insertCell(-1);
 
-cellID.innerHTML = String(todo.id)
-cellContents.innerHTML = todo.contents
-cellStatus.innerHTML = '<button>作業中</button>'  
-cellDelete.innerHTML = '<button onclick="deleteTodo(event)">削除</button>' 
+  cellID.innerHTML = String(todo.id)
+  cellContents.innerHTML = todo.contents
+  cellStatus.innerHTML = '<button>作業中</button>'  
+  cellDelete.innerHTML = `<button onclick="deleteTodo(${todo.id});resetTbody();displayTodoList(todoList);">削除</button>`
 }) }
 
 //<tbody></tbody>の子要素を無くす。
 const resetTbody = (): void => {
-while(list.firstChild){
-list.removeChild<ChildNode>(list.firstChild);
+  while(list.firstChild){
+  list.removeChild<ChildNode>(list.firstChild);
 }}
 
 //input内を空にする。
 const resetText = (): void => {
-text.value = '';
+  text.value = '';
 }
 
 //addBtnにclickイベントを追加する。
 
 addButton.addEventListener('click', function () {
 
-//１、input入力内容を取得し、新しいtodo{}を作成
-const textmessage: string = text.value;
-addTodo(textmessage);
+  //１、input入力内容を取得し、新しいtodo{}を作成
+  const textmessage: string = text.value;
+  addTodo(textmessage);
+  
+  //２、tbody内の子要素があれば消す。
+  resetTbody();
 
-//２、tbody内の子要素があれば消す。
-resetTbody();
+  //３、todoList[]をHTMLに表示する。
+  displayTodoList(todoList);
 
-//３、todoList[]をHTMLに表示する。
-displayTodoList(todoList);
-
-//４、新しいtodoを追加後、input内を空にする。
-resetText();
+  //４、新しいtodoを追加後、input内を空にする。
+  resetText();
 })
 
-//Update:　statusの変更 ”作業中”から”完了”　”完了”から”作業中”　→　HTMLのボタンのテキストも変更 → radioボタンで切り替えた時に　”作業中”か”完了”　で分けて表示する?
+//[Update]　
+//statusの変更 ”作業中”から”完了”　”完了”から”作業中”　→　HTMLのボタンのテキストも変更 → radioボタンで切り替えた時に　”作業中”か”完了”　で分けて表示する?
 
-//Delete: 
+//[Delete] 
 
-const deleteTodo = (event :Event): void => {
-
-//１、削除すべきtodoのindexを取得する
-if (!(event.target instanceof HTMLButtonElement)) {
-    return;
-    } 
-  if (!(event.target.parentNode instanceof HTMLTableCellElement)) {
-      return;
-    }
-  if (!(event.target.parentNode.parentNode instanceof HTMLTableRowElement)){
-      return;
-    }
-  let i: number = event.target.parentNode.parentNode.rowIndex
-  
-  //ボタンが押されたtrはtable[i]なので、theadの行もカウントされている。
-  //つまりtbody内では[i-1]個目のtodo{} なので削除したいtodo{}はtodoList[i-1]と表せる。
-
-  //２、todoList[]から削除したいtodo{}を削除する。
-  todoList.splice(i-1,1);
-
-  //３、tbody内の子要素を消す。
-  resetTbody();
-  
-  //４、todoList[]をHTMLに表示する。
-  displayTodoList(todoList);
+const deleteTodo = (id: number): void => {
+  let result: Todo[] = todoList.filter((todo)=> todo.id !== id);
+  todoList = result
 }
