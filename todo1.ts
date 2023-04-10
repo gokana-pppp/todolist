@@ -1,9 +1,9 @@
-/todo の型を作る
+//todo の型を作る
 type Todo = {
-    id: number,
-    contents: string,
-    status: "作業中" | "完了",
-}
+  id: number;
+  contents: string;
+  status: "作業中" | "完了";
+};
 
 //todoが集まる配列を作る
 let todoList: Todo[] = [];
@@ -14,50 +14,54 @@ let todoList: Todo[] = [];
 const addTodo = (textmessage: string): void => {
   const date: Date = new Date();
   const createdDate: number = date.getTime(); //idは作成時間
-  todoList.push({id: createdDate, contents: textmessage, status: "作業中"});
-}         
+  todoList.push({ id: createdDate, contents: textmessage, status: "作業中" });
+};
 
-const list = <HTMLTableElement> document.getElementById("memoList");
+const list = <HTMLTableElement>document.getElementById("memoList");
 const addButton: HTMLElement = document.getElementById("addBtn")!;
-const text = <HTMLInputElement> document.getElementById("text")
+const text = <HTMLInputElement>document.getElementById("text");
 
-//[Read]　
+//[Read]
 
 //HTMLにtodoList[]を表示する
 const displayTodoList = (todoList: Todo[]): void => {
-  todoList.forEach ( todo => {
+  todoList.forEach((todo) => {
+    let row: HTMLTableRowElement = list.insertRow(-1)!;
+    let cellID: HTMLTableCellElement = row.insertCell(-1);
+    let cellContents: HTMLTableCellElement = row.insertCell(-1);
+    let cellStatus: HTMLTableCellElement = row.insertCell(-1);
+    let cellDelete: HTMLTableCellElement = row.insertCell(-1);
 
-  let row: HTMLTableRowElement = list.insertRow(-1)!;
-  let cellID: HTMLTableCellElement = row.insertCell(-1);
-  let cellContents: HTMLTableCellElement = row.insertCell(-1);
-  let cellStatus: HTMLTableCellElement = row.insertCell(-1);
-  let cellDelete: HTMLTableCellElement = row.insertCell(-1);
-
-  cellID.innerHTML = String(todo.id)
-  cellContents.innerHTML = todo.contents
-  cellStatus.innerHTML = '<button>作業中</button>'  
-  cellDelete.innerHTML = `<button onclick="deleteTodo(${todo.id});resetTbody();displayTodoList(todoList);">削除</button>`
-}) }
+    cellID.innerHTML = String(todo.id);
+    cellContents.innerHTML = todo.contents;
+    if (todo.status === "作業中") {
+      cellStatus.innerHTML = `<button onclick="changeStatus(${todo.id});resetTbody();displayTodoList(todoList)">作業中</button>`;
+    } else {
+      cellStatus.innerHTML = `<button onclick="changeStatus(${todo.id});resetTbody();displayTodoList(todoList)">完了</button>`;
+    }
+    cellDelete.innerHTML = `<button onclick="deleteTodo(${todo.id});resetTbody();displayTodoList(todoList);">削除</button>`;
+  });
+};
 
 //<tbody></tbody>の子要素を無くす。
 const resetTbody = (): void => {
-  while(list.firstChild){
-  list.removeChild<ChildNode>(list.firstChild);
-}}
+  while (list.firstChild) {
+    list.removeChild<ChildNode>(list.firstChild);
+  }
+};
 
 //input内を空にする。
 const resetText = (): void => {
-  text.value = '';
-}
+  text.value = "";
+};
 
 //addBtnにclickイベントを追加する。
 
-addButton.addEventListener('click', function () {
-
+addButton.addEventListener("click", function () {
   //１、input入力内容を取得し、新しいtodo{}を作成
   const textmessage: string = text.value;
   addTodo(textmessage);
-  
+
   //２、tbody内の子要素があれば消す。
   resetTbody();
 
@@ -66,14 +70,24 @@ addButton.addEventListener('click', function () {
 
   //４、新しいtodoを追加後、input内を空にする。
   resetText();
-})
+});
 
-//[Update]　
-//statusの変更 ”作業中”から”完了”　”完了”から”作業中”　→　HTMLのボタンのテキストも変更 → radioボタンで切り替えた時に　”作業中”か”完了”　で分けて表示する?
+//[Update]
 
-//[Delete] 
+//statusの変更 ”作業中”から”完了”　”完了”から”作業中”　に変更。
+const changeStatus = (id: number): void => {
+  let target: Todo[] = todoList.filter((todo) => todo.id === id);
+  if (target[0].status === "作業中") {
+    target[0].status = "完了";
+  } else {
+    target[0].status = "作業中";
+  }
+};
 
+//[Delete]
+
+//todoを削除する。
 const deleteTodo = (id: number): void => {
-  let result: Todo[] = todoList.filter((todo)=> todo.id !== id);
-  todoList = result
-}
+  let result: Todo[] = todoList.filter((todo) => todo.id !== id);
+  todoList = result;
+};
