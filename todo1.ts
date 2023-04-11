@@ -2,7 +2,7 @@
 type Todo = {
   id: number;
   contents: string;
-  status: "作業中" | "完了";
+  status: '作業中' | '完了';
 };
 
 //todoが集まる配列を作る
@@ -14,27 +14,27 @@ let todoList: Todo[] = [];
 const addTodo = (textmessage: string): void => {
   const date: Date = new Date();
   const createdDate: number = date.getTime(); //idは作成時間
-  todoList.push({ id: createdDate, contents: textmessage, status: "作業中" });
+  todoList.push({ id: createdDate, contents: textmessage, status: '作業中' });
 };
 
-const list = <HTMLTableElement>document.getElementById("memoList");
-const addButton: HTMLElement = document.getElementById("addBtn")!;
-const text = <HTMLInputElement>document.getElementById("text");
+const list = <HTMLTableElement>document.getElementById('memoList');
+const addButton: HTMLElement = document.getElementById('addBtn')!;
+const text = <HTMLInputElement>document.getElementById('text');
 
 //[Read]
 
 //HTMLにtodoList[]を表示する
 const displayTodoList = (todoList: Todo[]): void => {
   todoList.forEach((todo) => {
-    let row: HTMLTableRowElement = list.insertRow(-1)!;
-    let cellID: HTMLTableCellElement = row.insertCell(-1);
-    let cellContents: HTMLTableCellElement = row.insertCell(-1);
-    let cellStatus: HTMLTableCellElement = row.insertCell(-1);
-    let cellDelete: HTMLTableCellElement = row.insertCell(-1);
+    const row: HTMLTableRowElement = list.insertRow(-1)!;
+    const cellID: HTMLTableCellElement = row.insertCell(-1);
+    const cellContents: HTMLTableCellElement = row.insertCell(-1);
+    const cellStatus: HTMLTableCellElement = row.insertCell(-1);
+    const cellDelete: HTMLTableCellElement = row.insertCell(-1);
 
     cellID.innerHTML = String(todo.id);
     cellContents.innerHTML = todo.contents;
-    if (todo.status === "作業中") {
+    if (todo.status === '作業中') {
       cellStatus.innerHTML = `<button onclick="changeStatus(${todo.id});resetTbody();displayTodoList(todoList)">作業中</button>`;
     } else {
       cellStatus.innerHTML = `<button onclick="changeStatus(${todo.id});resetTbody();displayTodoList(todoList)">完了</button>`;
@@ -52,12 +52,12 @@ const resetTbody = (): void => {
 
 //input内を空にする。
 const resetText = (): void => {
-  text.value = "";
+  text.value = '';
 };
 
 //addBtnにclickイベントを追加する。
 
-addButton.addEventListener("click", function () {
+addButton.addEventListener('click', function () {
   //１、input入力内容を取得し、新しいtodo{}を作成
   const textmessage: string = text.value;
   addTodo(textmessage);
@@ -75,12 +75,15 @@ addButton.addEventListener("click", function () {
 //[Update]
 
 //statusの変更 ”作業中”から”完了”　”完了”から”作業中”　に変更。
+const WORK_ON_PROGRESS = '作業中';
+const DONE = '完了';
+
 const changeStatus = (id: number): void => {
-  let target: Todo[] = todoList.filter((todo) => todo.id === id);
-  if (target[0].status === "作業中") {
-    target[0].status = "完了";
+  const target: Todo[] = todoList.filter((todo) => todo.id === id);
+  if (target[0].status === WORK_ON_PROGRESS) {
+    target[0].status = DONE;
   } else {
-    target[0].status = "作業中";
+    target[0].status = WORK_ON_PROGRESS;
   }
 };
 
@@ -88,6 +91,6 @@ const changeStatus = (id: number): void => {
 
 //todoを削除する。
 const deleteTodo = (id: number): void => {
-  let result: Todo[] = todoList.filter((todo) => todo.id !== id);
+  const result: Todo[] = todoList.filter((todo) => todo.id !== id);
   todoList = result;
 };
