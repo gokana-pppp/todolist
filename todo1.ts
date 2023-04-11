@@ -87,6 +87,38 @@ const changeStatus = (id: number): void => {
   }
 };
 
+//radioボタン　"すべて"を選択した時
+const ALL_STATUS_BTN: HTMLElement = document.getElementById('ALL_STATUS')!;
+ALL_STATUS_BTN.addEventListener('click', () => {
+  resetTbody();
+  displayTodoList(todoList);
+});
+
+//radioボタン　"作業中"を選択した時
+const WORK_ON_PROGRESS_BTN: HTMLElement = document.getElementById('WORK_ON_PROGRESS')!;
+const selectWORK_ON_PROGRESS = (): Todo[] => {
+  const W_LIST: Todo[] = todoList.filter((todo) => todo.status === WORK_ON_PROGRESS);
+  return W_LIST;
+};
+
+WORK_ON_PROGRESS_BTN.addEventListener('click', () => {
+  resetTbody();
+  selectWORK_ON_PROGRESS();
+  displayTodoList(selectWORK_ON_PROGRESS());
+});
+
+//radioボタン　"完了"を選択した時
+const DONE_BTN: HTMLElement = document.getElementById('DONE')!;
+const selectDONE = (): Todo[] => {
+  const D_LIST = todoList.filter((todo) => todo.status === DONE);
+  return D_LIST;
+};
+DONE_BTN.addEventListener('click', () => {
+  resetTbody();
+  selectDONE();
+  displayTodoList(selectDONE());
+});
+
 //[Delete]
 
 //todoを削除する。
