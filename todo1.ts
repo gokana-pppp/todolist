@@ -61,17 +61,10 @@ const resetText = (): void => {
 //addBtnにclickイベントを追加する。
 
 addButton.addEventListener('click', function () {
-  //１、input入力内容を取得し、新しいtodo{}を作成
   const textmessage: string = text.value;
   addTodo(textmessage);
-
-  //２、tbody内の子要素があれば消す。
   resetTbody();
-
-  //３、todoList[]をHTMLに表示する。
   displayTodoList(todoList);
-
-  //４、新しいtodoを追加後、input内を空にする。
   resetText();
 });
 
