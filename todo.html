@@ -14,8 +14,11 @@
   <body>
     <h1>ToDo リスト</h1>
 
-    <input type="radio" name="status" id="ALL_STATUS" checked />すべて
-    <input type="radio" name="status" id="WORK_ON_PROGRESS" />作業中 <input type="radio" name="status" id="DONE" />完了
+    <div class="radio-btn">
+      <input type="radio" name="status" id="ALL_STATUS" checked />すべて
+      <input type="radio" name="status" id="WORK_ON_PROGRESS" />作業中
+      <input type="radio" name="status" id="DONE" />完了
+    </div>
 
     <table>
       <thead>
@@ -29,9 +32,12 @@
       <tbody id="memoList"></tbody>
     </table>
 
-    <h1>新規タスクの追加</h1>
-    <input type="text" id="text" />
-    <button style="font-family: Sawarabi Mincho" id="addBtn">追加</button>
+    <div class="add">
+      <h1>新規タスクの追加</h1>
+      <input type="text" id="text" />
+      <button style="font-family: Sawarabi Mincho" id="addBtn">追加</button>
+    </div>
+
     <script src="todo1.js"></script>
   </body>
 </html>
