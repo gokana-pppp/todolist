@@ -38,11 +38,11 @@ const displayTodoList = (todoList: Todo[]): void => {
     cellID.innerHTML = String(todo.id);
     cellContents.innerHTML = todo.contents;
     if (todo.status === WORK_ON_PROGRESS) {
-      cellStatus.innerHTML = `<button onclick="changeStatus(${todo.id});resetTbody();displayTodoList(todoList)">作業中</button>`;
+      cellStatus.innerHTML = `<button style="font-family:Sawarabi Mincho" onclick="changeStatus(${todo.id});resetTbody();displayTodoList(todoList)">作業中</button>`;
     } else {
-      cellStatus.innerHTML = `<button onclick="changeStatus(${todo.id});resetTbody();displayTodoList(todoList)">完了</button>`;
+      cellStatus.innerHTML = `<button style="font-family:Sawarabi Mincho" onclick="changeStatus(${todo.id});resetTbody();displayTodoList(todoList)">完了</button>`;
     }
-    cellDelete.innerHTML = `<button onclick="deleteTodo(${todo.id});resetTbody();displayTodoList(todoList);">削除</button>`;
+    cellDelete.innerHTML = `<button style="font-family:Sawarabi Mincho" onclick="deleteTodo(${todo.id});resetTbody();displayTodoList(todoList);">削除</button>`;
   });
 };
 

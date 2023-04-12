@@ -1,1 +1,47 @@
+body {
+  font-family: 'Sawarabi Mincho';
+}
 
+h1 {
+  text-align: center;
+}
+
+h2 {
+  font-size: 15px;
+}
+
+.radio-btn {
+  text-align: center;
+}
+
+thead {
+  background-color: #87ceeb;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  margin-top: 50px;
+  margin-bottom: 100px;
+}
+
+table tr {
+  border-bottom: solid 1px #eee;
+  cursor: pointer;
+}
+
+table td {
+  text-align: center;
+  width: 25%;
+  padding: 15px 0;
+  background: #eee;
+}
+
+table tr:nth-child(odd) td {
+  background: #fff;
+}
+
+.add {
+  text-align: center;
+}
