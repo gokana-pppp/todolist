@@ -5,6 +5,9 @@ type Todo = {
   status: '作業中' | '完了';
 };
 
+const WORK_ON_PROGRESS = '作業中';
+const DONE = '完了';
+
 //todoが集まる配列を作る
 let todoList: Todo[] = [];
 
@@ -14,7 +17,7 @@ let todoList: Todo[] = [];
 const addTodo = (textmessage: string): void => {
   const date: Date = new Date();
   const createdDate: number = date.getTime(); //idは作成時間
-  todoList.push({ id: createdDate, contents: textmessage, status: '作業中' });
+  todoList.push({ id: createdDate, contents: textmessage, status: WORK_ON_PROGRESS });
 };
 
 const list = <HTMLTableElement>document.getElementById('memoList');
@@ -34,7 +37,7 @@ const displayTodoList = (todoList: Todo[]): void => {
 
     cellID.innerHTML = String(todo.id);
     cellContents.innerHTML = todo.contents;
-    if (todo.status === '作業中') {
+    if (todo.status === WORK_ON_PROGRESS) {
       cellStatus.innerHTML = `<button onclick="changeStatus(${todo.id});resetTbody();displayTodoList(todoList)">作業中</button>`;
     } else {
       cellStatus.innerHTML = `<button onclick="changeStatus(${todo.id});resetTbody();displayTodoList(todoList)">完了</button>`;
@@ -75,8 +78,6 @@ addButton.addEventListener('click', function () {
 //[Update]
 
 //statusの変更 ”作業中”から”完了”　”完了”から”作業中”　に変更。
-const WORK_ON_PROGRESS = '作業中';
-const DONE = '完了';
 
 const changeStatus = (id: number): void => {
   const target: Todo[] = todoList.filter((todo) => todo.id === id);
@@ -88,35 +89,40 @@ const changeStatus = (id: number): void => {
 };
 
 //radioボタン　"すべて"を選択した時
-const ALL_STATUS_BTN: HTMLElement = document.getElementById('ALL_STATUS')!;
-ALL_STATUS_BTN.addEventListener('click', () => {
+const allStatusBtn: HTMLElement = document.getElementById('ALL_STATUS')!;
+
+allStatusBtn.addEventListener('click', () => {
   resetTbody();
   displayTodoList(todoList);
 });
 
+//radioボタン　statusごとに分ける
+const getTodoList = (status: string): Todo[] => {
+  if (status === WORK_ON_PROGRESS) {
+    const W_LIST: Todo[] = todoList.filter((todo) => todo.status === WORK_ON_PROGRESS);
+    return W_LIST;
+  } else {
+    const D_LIST = todoList.filter((todo) => todo.status === DONE);
+    return D_LIST;
+  }
+};
+
 //radioボタン　"作業中"を選択した時
 const WORK_ON_PROGRESS_BTN: HTMLElement = document.getElementById('WORK_ON_PROGRESS')!;
-const selectWORK_ON_PROGRESS = (): Todo[] => {
-  const W_LIST: Todo[] = todoList.filter((todo) => todo.status === WORK_ON_PROGRESS);
-  return W_LIST;
-};
 
 WORK_ON_PROGRESS_BTN.addEventListener('click', () => {
   resetTbody();
-  selectWORK_ON_PROGRESS();
-  displayTodoList(selectWORK_ON_PROGRESS());
+  const workOnProgressTodoList = getTodoList(WORK_ON_PROGRESS);
+  displayTodoList(workOnProgressTodoList);
 });
 
 //radioボタン　"完了"を選択した時
 const DONE_BTN: HTMLElement = document.getElementById('DONE')!;
-const selectDONE = (): Todo[] => {
-  const D_LIST = todoList.filter((todo) => todo.status === DONE);
-  return D_LIST;
-};
+
 DONE_BTN.addEventListener('click', () => {
   resetTbody();
-  selectDONE();
-  displayTodoList(selectDONE());
+  const DoneTodoList = getTodoList(DONE);
+  displayTodoList(DoneTodoList);
 });
 
 //[Delete]
